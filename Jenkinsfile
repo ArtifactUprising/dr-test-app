@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh '''
                 env | sort
-
+                echo 'foo'
                 docker build -t dr-test-app .
                 '''
             }
