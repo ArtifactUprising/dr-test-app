@@ -9,6 +9,7 @@ pipeline {
                           -u root:root'
                 }
             }
+            when { equals expecte: 'master', actual: env.CHANGE_TARGET }
             steps {
                 sh '''
                 env | sort
