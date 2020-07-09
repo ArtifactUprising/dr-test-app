@@ -11,6 +11,8 @@ pipeline {
             }
             steps {
                 sh '''
+                env | sort
+
                 docker build -t dr-test-app .
                 '''
             }
