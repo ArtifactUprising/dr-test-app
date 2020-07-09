@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    stages {
+        stage('build') {
+            agent {
+                docker {
+                    image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:latest"
+                    args '-v /var/run/docker.sock:/var/run/docker.sock \
+                          -u root:root'
+                }
+            }
+            steps {
+                sh '''
+                docker build -t dr-test-app .
+                '''
+            }
+        }
+    }
+}
