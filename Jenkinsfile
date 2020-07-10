@@ -83,7 +83,7 @@ pipeline {
         }
         stage('Deploy Production') {
 //            when {}
-            envonment {
+            environment {
                 DT_TARGET_ENV = "production"
             }
             steps {
