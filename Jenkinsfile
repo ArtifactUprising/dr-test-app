@@ -1,8 +1,10 @@
 pipeline {
-    docker {
-        image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:latest"
-        args '-v /var/run/docker.sock:/var/run/docker.sock \
-              -u root:root'
+    agent {
+        docker {
+            image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:latest"
+            args '-v /var/run/docker.sock:/var/run/docker.sock \
+                  -u root:root'
+        }
     }
 //    agent any
     stages {
@@ -17,7 +19,7 @@ pipeline {
             when {
                 equals expected: 'master', actual: env.CHANGE_TARGET
             }
-            environment {}
+//            environment {}
             steps {
                 sh '''
                   env | sort
