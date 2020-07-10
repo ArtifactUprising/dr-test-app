@@ -71,6 +71,7 @@ pipeline {
             options {
                 timeout(time: 20, unit: 'MINUTES')
             }
+        }
         stage('publish production release') {
 //            when {}
 //            environment {}
@@ -79,8 +80,6 @@ pipeline {
                   env | sort
                 '''
             }
-        }
-
         }
         stage('Deploy Production') {
 //            when {}
