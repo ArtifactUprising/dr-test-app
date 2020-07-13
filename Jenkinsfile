@@ -58,7 +58,7 @@ pipeline {
         stage('Deploy Staging') {
             when {
 //                equals expected: 'master', actual: env.BRANCH_NAME
-                { branch "master" }
+                branch "master"
             }
             environment {
                 DT_TARGET_ENV = "staging"
