@@ -68,13 +68,6 @@ pipeline {
                   env | sort
                 '''
             }
-            input {
-                message "Deploy build to staging?"
-                ok "Deploy to Staging"
-            }
-            options {
-                timeout(time: 20, unit: 'MINUTES')
-            }
         }
         stage('publish production release') {
             when { tag "v*" }
@@ -94,13 +87,6 @@ pipeline {
                 sh '''
                   env | sort
                 '''
-            }
-            input {
-                message "Deploy build to production?"
-                ok "Deploy to Production"
-            }
-            options {
-                timeout(time: 20, unit: 'MINUTES')
             }
         }
     }
