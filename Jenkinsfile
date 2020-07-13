@@ -17,7 +17,8 @@ pipeline {
 //                }
 //            }
             when {
-                equals expected: 'master', actual: env.CHANGE_TARGET
+//                equals expected: 'master', actual: env.CHANGE_TARGET
+                changeRequest target: 'master'
             }
 //            environment {}
             steps {
@@ -30,7 +31,8 @@ pipeline {
         }
         stage('Deploy PR') {
             when {
-                equals expected: 'master', actual: env.CHANGE_TARGET
+//                equals expected: 'master', actual: env.CHANGE_TARGET
+                changeRequest target: 'master'
             }
             environment {
                 DT_TARGET_ENV = "ephemeral"
@@ -43,7 +45,8 @@ pipeline {
         }
         stage('publish staging rc') {
             when {
-                equals expected: 'master', actual: env.BRANCH_NAME
+//                equals expected: 'master', actual: env.BRANCH_NAME
+                branch 'master'
             }
 //            environment {}
             steps {
@@ -54,7 +57,8 @@ pipeline {
         }
         stage('Deploy Staging') {
             when {
-                equals expected: 'master', actual: env.BRANCH_NAME
+//                equals expected: 'master', actual: env.BRANCH_NAME
+                branch "master"
             }
             environment {
                 DT_TARGET_ENV = "staging"
@@ -73,7 +77,7 @@ pipeline {
             }
         }
         stage('publish production release') {
-//            when {}
+            when { tag "v*" }
 //            environment {}
             steps {
                 sh '''
@@ -82,7 +86,7 @@ pipeline {
             }
         }
         stage('Deploy Production') {
-//            when {}
+            when { tag "v*" }
             environment {
                 DT_TARGET_ENV = "production"
             }
