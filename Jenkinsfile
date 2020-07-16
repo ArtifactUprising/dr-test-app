@@ -41,6 +41,7 @@ pipeline {
             }
             environment {
                 DT_TARGET_ENV="ephemeral"
+                DT_TARGET_CLUSTER="app"
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
