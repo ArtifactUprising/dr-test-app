@@ -1,16 +1,26 @@
+{{ if (.Values.frontend.hpa_enabled) }}
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
-apiVersion: autoscaling/v2beta1
 metadata:
-  name: sqs-{{ .Release.Name }}-scaler
+  name: "{{ .Release.Name }}-frontend"
 spec:
   scaleTargetRef:
     apiVersion: apps/v1beta1
     kind: Deployment
-    name: {{ .Release.Name }}
-  minReplicas: 1
-  maxReplicas: 10
+    name: "{{ .Release.Name }}-frontend"
+  minReplicas: {{ .Values.frontend.minReplicas }}
+  maxReplicas: {{ default 1 .Values.frontend.maxReplicas }}
   metrics:
-  - type: External
-    external:
-      metricName: sqs-{{ .Release.Name }}-length
-      targetAverageValue: 10
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+{{- end }}
