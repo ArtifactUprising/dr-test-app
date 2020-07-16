@@ -13,12 +13,13 @@ pipeline {
                 changeRequest target: 'master'
             }
             environment {
-                TARGET_ENV="ephemeral"
+                DT_TARGET_ENV="ephemeral"
             }
             steps {
                 sh '''
-                  export DT_HELM_IMAGETAG=${BUILD_TAG#jenkins-ArtifactUprising-}
-                  env | sort
+                  export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} ${BUILD_TAG#jenkins-ArtifactUprising-}"
+                  docker_build
+                  docker_push
                 '''
             }
         }
