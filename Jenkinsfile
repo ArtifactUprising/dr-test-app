@@ -53,6 +53,8 @@ pipeline {
                   export DT_HELM_IMAGETAG=$(echo ${JOB_NAME#*/} | tr / -)
                   export DT_HELM_NAMESPACE=$(echo ${JOB_NAME#*/} | tr / -)
                   export DT_HELM_domainName="${DT_HELM_IMAGETAG}.app.artifactstaging.com"
+
+                  set_eks_auth
                   helm_deploy
                 '''
             }
