@@ -20,5 +20,7 @@ resources:
     cpu: 500m
     memory: 1Gi
 
+port: "9090"
+
 envConfig:
   ENVIRONMENT: ephemeral
