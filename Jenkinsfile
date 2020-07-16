@@ -6,8 +6,14 @@ pipeline {
                   -u root:root'
         }
     }
-//    agent any
     stages {
+        stage('debug') {
+            steps {
+                sh '''
+                  env | sort
+                '''
+            }
+        }
         stage('build') {
             when {
                 changeRequest target: 'master'
@@ -23,26 +29,34 @@ pipeline {
                   . /root/.ashrc
                   read_config
 
-                  export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} ${BUILD_TAG#jenkins-ArtifactUprising-}"
+                  export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} $(echo ${WORKSPACE#*/*_} | tr _ -)"
                   docker_build
                   docker_push
                 '''
             }
         }
-        /*
         stage('Deploy PR') {
             when {
                 changeRequest target: 'master'
             }
             environment {
-                DT_TARGET_ENV = "ephemeral"
+                DT_TARGET_ENV="ephemeral"
+                AWS_DEFAULT_REGION="us-west-2"
+                AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
+                AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
             }
             steps {
                 sh '''
+                  . /root/.ashrc
+                  read_config
+
+                  DT_HELM_IMAGETAG=$(echo ${WORKSPACE#*/*_} | tr _ -")
+                  DT_HELM_domainName="${DT_HELM_IMAGETAG}.app.artifactstaging.com"
                   env | sort
                 '''
             }
         }
+        /*
         stage('publish staging rc') {
             when {
 //                equals expected: 'master', actual: env.BRANCH_NAME
