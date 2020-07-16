@@ -3,7 +3,7 @@ ingressClass: nginx-ingress
 certIssuer: letsencrypt
 # certSecret: [dynamic]
 
-hpa_enabled: "false"
+hpa_enabled: false
 replicas: 1
 
 # labels.app: [dynamic]

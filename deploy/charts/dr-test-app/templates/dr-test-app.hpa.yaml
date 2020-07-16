@@ -1,15 +1,15 @@
-{{ if (.Values.frontend.hpa_enabled) }}
+{{ if (.Values.hpa_enabled) }}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: "{{ .Release.Name }}-frontend"
+  name: "{{ .Release.Name }}-
 spec:
   scaleTargetRef:
     apiVersion: apps/v1beta1
     kind: Deployment
-    name: "{{ .Release.Name }}-frontend"
-  minReplicas: {{ .Values.frontend.minReplicas }}
-  maxReplicas: {{ default 1 .Values.frontend.maxReplicas }}
+    name: "{{ .Release.Name }}-
+  minReplicas: {{ .Values.minReplicas }}
+  maxReplicas: {{ default 1 .Values.maxReplicas }}
   metrics:
   - type: Resource
     resource:
