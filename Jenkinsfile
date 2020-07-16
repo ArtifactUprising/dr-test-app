@@ -17,6 +17,9 @@ pipeline {
             }
             steps {
                 sh '''
+                  . /root/.ashrc
+                  read_config
+                  
                   export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} ${BUILD_TAG#jenkins-ArtifactUprising-}"
                   docker_build
                   docker_push
