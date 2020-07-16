@@ -29,7 +29,7 @@ pipeline {
                   . /root/.ashrc
                   read_config
 
-                  export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} $(echo ${WORKSPACE#*/*_} | tr _ -)"
+                  export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} $(echo ${JOB_NAME##*/} | tr / -)"
                   docker_build
                   docker_push
                 '''
@@ -50,7 +50,7 @@ pipeline {
                   . /root/.ashrc
                   read_config
 
-                  DT_HELM_IMAGETAG=$(echo ${WORKSPACE#*/*_} | tr _ -")
+                  DT_HELM_IMAGETAG=$(echo ${echo ${JOB_NAME##*/} | tr / -)
                   DT_HELM_domainName="${DT_HELM_IMAGETAG}.app.artifactstaging.com"
                   env | sort
                 '''
