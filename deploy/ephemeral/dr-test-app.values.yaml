@@ -9,7 +9,7 @@ replicas: 1
 # labels.app: [dynamic]
 
 image:
-  repository: 966326147313.dkr.ecr.us-west-2.amazonaws.com/au-pdf-service
+  repository: 966326147313.dkr.ecr.us-west-2.amazonaws.com/dr-test-app
   tag: latest
 
 resources:
