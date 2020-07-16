@@ -14,12 +14,15 @@ pipeline {
             }
             environment {
                 DT_TARGET_ENV="ephemeral"
+                AWS_DEFAULT_REGION="us-west-2"
+                AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
+                AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
             }
             steps {
                 sh '''
                   . /root/.ashrc
                   read_config
-                  
+
                   export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} ${BUILD_TAG#jenkins-ArtifactUprising-}"
                   docker_build
                   docker_push
