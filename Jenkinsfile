@@ -50,7 +50,7 @@ pipeline {
                   . /root/.ashrc
                   read_config
 
-                  DT_HELM_IMAGETAG=$(echo ${echo ${JOB_NAME##*/} | tr / -)
+                  DT_HELM_IMAGETAG=$(echo ${JOB_NAME##*/} | tr / -)
                   DT_HELM_domainName="${DT_HELM_IMAGETAG}.app.artifactstaging.com"
                   env | sort
                 '''
