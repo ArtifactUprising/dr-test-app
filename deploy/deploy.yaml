@@ -1,0 +1,27 @@
+version: au/v1
+build:
+  docker:
+    dockerfile: Dockerfile
+    registry:
+      url: 966326147313.dkr.ecr.us-west-2.amazonaws.com
+      repo: dr-test-app
+deploy:
+  helm:
+    release: dr-test-app
+    ephemeral:
+      chart:
+        path: deploy/charts/dr-test-app
+        values:
+          - deploy/ephemeral/dr-test-app.values.yaml
+    staging:
+      namespace: dr-test-app
+      chart:
+        path: deploy/charts/dr-test-app
+        values:
+          - deploy/staging/dr-test-app.values.yaml
+    production:
+      namespace: dr-test-app
+      chart:
+        path: deploy/charts/dr-test-app
+        values:
+          - deploy/production/dr-test-app.values.yaml
