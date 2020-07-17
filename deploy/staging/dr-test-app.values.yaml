@@ -6,7 +6,8 @@ certSecret: dr-test-app
 hpa_enabled: false
 replicas: 1
 
-# labels.app: [dynamic]
+labels:
+  app: dr-test-app
 
 image:
   repository: 966326147313.dkr.ecr.us-west-2.amazonaws.com/dr-test-app
@@ -23,4 +24,4 @@ resources:
 port: "9090"
 
 envConfig:
-  ENVIRONMENT: ephemeral
+  ENVIRONMENT: staging
