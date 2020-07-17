@@ -29,7 +29,6 @@ pipeline {
                   . /root/.ashrc
                   read_config
 
-                  export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} $(echo ${JOB_NAME#*/} | tr / - | tr [:upper:] [:lower:])"
                   docker_build
                   docker_push
                 '''
@@ -50,10 +49,6 @@ pipeline {
                 sh '''
                   . /root/.ashrc
                   read_config
-
-                  export DT_HELM_IMAGETAG=$(echo ${JOB_NAME#*/} | tr / - | tr [:upper:] [:lower:])
-                  export DT_HELM_NAMESPACE=$(echo ${JOB_NAME#*/} | tr / - | tr [:upper:] [:lower:])
-                  export DT_HELM_DOMAINNAME="${DT_HELM_IMAGETAG}.app.artifactstaging.com"
 
                   set_eks_auth
                   helm_deploy
