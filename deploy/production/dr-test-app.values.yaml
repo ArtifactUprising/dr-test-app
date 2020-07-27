@@ -1,0 +1,29 @@
+domainName: dr-test-app.app.artifactuprising.com
+ingressClass: nginx-ingress
+certIssuer: letsencrypt
+certSecret: dr-test-app
+
+hpa_enabled: true
+replicas: 1
+minReplicas: 2
+maxReplicas: 4
+
+labels:
+  app: dr-test-app
+
+image:
+  repository: 966326147313.dkr.ecr.us-west-2.amazonaws.com/dr-test-app
+  tag: latest
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+port: "9090"
+
+envConfig:
+  ENVIRONMENT: prod

@@ -110,20 +110,26 @@ pipeline {
                 '''
             }
         }
-        /*
         stage('publish production release') {
             when { tag "v*" }
 //            environment {}
             steps {
                 sh '''
-                  env | sort
+                    env | sort
+                    . /root/.ashrc
+
+                    read_config
+                    docker_promote "${TAG_NAME}" "staging"
                 '''
             }
         }
+        /*
         stage('Deploy Production') {
             when { tag "v*" }
             environment {
                 DT_TARGET_ENV = "production"
+                AWS_ACCESS_KEY_ID=credentials('PROD_AWS_ACCESS_KEY_ID')
+                AWS_SECRET_ACCESS_KEY=credentials('PROD_AWS_SECRET_ACCESS_KEY')
             }
             steps {
                 sh '''
