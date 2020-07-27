@@ -112,10 +112,13 @@ pipeline {
         }
         stage('publish production release') {
             when { tag "v*" }
-//            environment {}
+            environment {
+                AWS_DEFAULT_REGION="us-west-2"
+                AWS_ACCESS_KEY_ID=credentials('PROD_AWS_ACCESS_KEY_ID')
+                AWS_SECRET_ACCESS_KEY=credentials('PROD_AWS_SECRET_ACCESS_KEY')
+            }
             steps {
                 sh '''
-                    env | sort
                     . /root/.ashrc
 
                     read_config
