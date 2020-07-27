@@ -142,6 +142,7 @@ pipeline {
                     read_config
                     export DT_HELM_IMAGETAG="${TAG_NAME}"
                     set_eks_auth
+                    kubectl get ns
                     helm_deploy
                 '''
             }
