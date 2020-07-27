@@ -129,8 +129,8 @@ pipeline {
         stage('Deploy Production') {
             when { tag "v*" }
             environment {
-                DT_TARGET_ENV = "prod"
-                DT_TAGET_CLUSTER = "prod-app"
+                DT_TARGET_ENV="prod"
+                DT_TARGET_CLUSTER="prod-app"
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('PROD_AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('PROD_AWS_SECRET_ACCESS_KEY')
