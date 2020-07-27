@@ -19,7 +19,7 @@ deploy:
         path: deploy/charts/dr-test-app
         values:
           - deploy/staging/dr-test-app.values.yaml
-    production:
+    prod:
       namespace: dr-test-app
       chart:
         path: deploy/charts/dr-test-app

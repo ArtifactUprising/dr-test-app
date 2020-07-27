@@ -110,27 +110,42 @@ pipeline {
                 '''
             }
         }
-        /*
         stage('publish production release') {
             when { tag "v*" }
-//            environment {}
+            environment {
+                AWS_DEFAULT_REGION="us-west-2"
+                AWS_ACCESS_KEY_ID=credentials('PROD_AWS_ACCESS_KEY_ID')
+                AWS_SECRET_ACCESS_KEY=credentials('PROD_AWS_SECRET_ACCESS_KEY')
+            }
             steps {
                 sh '''
-                  env | sort
+                    . /root/.ashrc
+
+                    read_config
+                    docker_promote "${TAG_NAME}" "staging"
                 '''
             }
         }
         stage('Deploy Production') {
             when { tag "v*" }
             environment {
-                DT_TARGET_ENV = "production"
+                DT_TARGET_ENV="prod"
+                DT_TARGET_CLUSTER="prod-app"
+                AWS_DEFAULT_REGION="us-west-2"
+                AWS_ACCESS_KEY_ID=credentials('PROD_AWS_ACCESS_KEY_ID')
+                AWS_SECRET_ACCESS_KEY=credentials('PROD_AWS_SECRET_ACCESS_KEY')
             }
             steps {
                 sh '''
-                  env | sort
+                    . /root/.ashrc
+
+                    read_config
+                    export DT_HELM_IMAGETAG="${TAG_NAME}"
+                    set_eks_auth
+                    kubectl get ns
+                    helm_deploy
                 '''
             }
         }
-        */
     }
 }
