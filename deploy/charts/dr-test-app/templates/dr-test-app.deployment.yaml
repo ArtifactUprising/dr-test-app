@@ -16,9 +16,9 @@ spec:
     metadata:
       labels:
 {{ toYaml .Values.labels | indent 8 }}
+        githash: "{{ default "none" .Values.githash }}"
       annotations:
         timestamp: "{{ date "20060102150405" .Release.Time }}"
-        githash: "{{ default "none" .Values.githash }}"
     spec:
       containers:
       - name: {{ .Chart.Name }}
