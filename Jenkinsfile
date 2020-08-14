@@ -13,7 +13,7 @@ pipeline {
                   env | sort
                 
                 '''
-                echo ${currentBuild.buildCauses}
+                echo "${currentBuild.buildCauses}"
             }
         }
         stage('build') {
