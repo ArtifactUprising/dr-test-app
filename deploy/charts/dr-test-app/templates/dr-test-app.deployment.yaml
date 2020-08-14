@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}
-  githash: "{{ default "none" .Values.githash }}"
+  annotations:
+    githash: "{{ default "none" .Values.githash }}"
 spec:
   replicas: 1
   strategy:
