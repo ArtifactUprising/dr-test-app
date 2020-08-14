@@ -13,7 +13,7 @@ pipeline {
                   env | sort
                 
                 '''
-                echo "${currentBuild.rawBuild}"
+                echo "${currentBuild.getBuildCauses}"
             }
         }
         stage('build') {
