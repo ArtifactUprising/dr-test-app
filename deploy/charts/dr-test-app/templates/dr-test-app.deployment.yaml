@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}
+  githash: "{{ default "none" .Values.githash }}"
 spec:
   replicas: 1
   strategy:
@@ -16,7 +17,6 @@ spec:
     metadata:
       labels:
 {{ toYaml .Values.labels | indent 8 }}
-        githash: "{{ default "none" .Values.githash }}"
       annotations:
         timestamp: "{{ date "20060102150405" .Release.Time }}"
     spec:
