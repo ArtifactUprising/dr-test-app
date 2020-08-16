@@ -11,9 +11,8 @@ pipeline {
             steps {
                 sh '''
                   env | sort
-                
                 '''
-                echo "${currentBuild.getBuildCauses}"
+                echo "${currentBuild.buildCauses}"
             }
         }
         stage('build') {
