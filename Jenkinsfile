@@ -99,7 +99,10 @@ pipeline {
 
         /* end */
         stage('Deploy Staging') {
-            when { branch "master" }
+            when {
+//                branch "master"
+                changeRequest target: 'master'
+            }
             environment {
                 DT_TARGET_ENV = "staging"
                 DT_TARGET_CLUSTER="app"
