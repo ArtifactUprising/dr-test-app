@@ -20,10 +20,10 @@ spec:
         backend:
           serviceName: {{ .Release.Name }}
           servicePort: 9090
-  - host: "{{ .Values.newDomainName }}"
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: {{ .Release.Name }}
-          servicePort: 9090
+# -   - host: "{{ .Values.newDomainName }}"
+# -     http:
+# -       paths:
+# -       - path: /
+# -         backend:
+# -           serviceName: {{ .Release.Name }}
+# -           servicePort: 9090
