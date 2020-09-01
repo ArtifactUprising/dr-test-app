@@ -10,9 +10,17 @@ spec:
   tls:
   - hosts:
     - "{{ .Values.domainName }}"
+    - "{{ .Values.newDomainName }}"
     secretName: "{{ .Values.certSecret }}"
   rules:
   - host: "{{ .Values.domainName }}"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Release.Name }}
+          servicePort: 9090
+  - host: "{{ .Values.newDomainName }}"
     http:
       paths:
       - path: /
