@@ -6,11 +6,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "{{ .Values.ingressClass }}"
     cert-manager.io/cluster-issuer: "{{ .Values.certIssuer }}"
+    external-dns.alpha.kubernetes.io/hostname: "{{ .Values.domainName }}"
 spec:
   tls:
   - hosts:
     - "{{ .Values.domainName }}"
-# -    - "{{ .Values.newDomainName }}"
+{{- if eq .Values.env "prod" }}
+    - "{{ .Values.domainName | replace ".app" "" }}"
+{{- end }}
     secretName: "{{ .Values.certSecret }}"
   rules:
   - host: "{{ .Values.domainName }}"
@@ -20,10 +23,10 @@ spec:
         backend:
           serviceName: {{ .Release.Name }}
           servicePort: 9090
-# -   - host: "{{ .Values.newDomainName }}"
-# -     http:
-# -       paths:
-# -       - path: /
-# -         backend:
-# -           serviceName: {{ .Release.Name }}
-# -           servicePort: 9090
+  - host: "{{ .Values.domainName | replace ".app" "" }}"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Release.Name }}
+          servicePort: 9090
