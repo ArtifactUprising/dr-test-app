@@ -1,4 +1,7 @@
+env: staging
+
 domainName: dr-test-app.app.artifactstaging.com
+newDomainName: dr-test-app.artifactstaging.com
 ingressClass: nginx-ingress
 certIssuer: letsencrypt
 certSecret: dr-test-app

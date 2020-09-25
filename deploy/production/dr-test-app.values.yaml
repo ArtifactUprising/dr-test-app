@@ -1,3 +1,5 @@
+env: prod
+
 domainName: dr-test-app.app.artifactuprising.com
 ingressClass: nginx-ingress
 certIssuer: letsencrypt

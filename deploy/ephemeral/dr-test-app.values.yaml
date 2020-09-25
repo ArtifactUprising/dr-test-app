@@ -1,3 +1,5 @@
+env: ephemeral
+
 # domainName: [dynamic]
 ingressClass: nginx-ingress
 certIssuer: letsencrypt
