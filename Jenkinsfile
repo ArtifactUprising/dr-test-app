@@ -14,7 +14,6 @@ pipeline {
                 '''
             }
         }
-        /*
         stage('build') {
             when {
                 changeRequest target: 'master'
@@ -41,7 +40,7 @@ pipeline {
             }
             environment {
                 DT_TARGET_ENV="ephemeral"
-                DT_TARGET_CLUSTER="app"
+                DT_TARGET_CLUSTER="staging-app"
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
@@ -73,39 +72,13 @@ pipeline {
                 '''
             }
         }
-        */
-        /*** tmp deploy PR for staging ***/
-        stage('build') {
-            when {
-                changeRequest target: 'master'
-            }
-            environment {
-                DT_TARGET_ENV="staging"
-                AWS_DEFAULT_REGION="us-west-2"
-                AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
-                AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
-            }
-            steps {
-                sh '''
-                  . /root/.ashrc
-                  read_config
-                  
-                  export DT_DOCKER_TAGS="${DT_DOCKER_TAGS} ${DT_TARGET_ENV}"
-                  docker_build
-                  docker_push
-                '''
-            }
-        }
-
-        /* end */
         stage('Deploy Staging') {
             when {
-//                branch "master"
-                changeRequest target: 'master'
+                branch "master"
             }
             environment {
                 DT_TARGET_ENV = "staging"
-                DT_TARGET_CLUSTER="app"
+                DT_TARGET_CLUSTER="staging-app"
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
@@ -124,7 +97,7 @@ pipeline {
         stage('Delete PR ENV') {
             when { branch 'master' }
             environment {
-                DT_TARGET_CLUSTER="app"
+                DT_TARGET_CLUSTER="staging-app"
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
