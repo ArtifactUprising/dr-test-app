@@ -9,7 +9,7 @@ import (
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%v %v %v", r.RemoteAddr, r.Method, r.RequestURI)
-	fmt.Printf("%w - %w", "DrivenRole Test App", os.Getenv("HOSTNAME"))
+	fmt.Fprintf(w, "%s - %s", "DrivenRole Test App", os.Getenv("HOSTNAME"))
 }
 
 func main() {
