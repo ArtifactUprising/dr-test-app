@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"log"
 	"net/http"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%v %v %v", r.RemoteAddr, r.Method, r.RequestURI)
-	fmt.Fprintf(w, "DrivenRole Test App")
+	fmt.Printf("%w - %w", "DrivenRole Test App", os.Getenv("HOSTNAME"))
 }
 
 func main() {
