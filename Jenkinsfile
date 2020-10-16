@@ -113,7 +113,7 @@ pipeline {
             }
         }
         stage('deploy release candidate to staging') {
-            when { tag "/^([0-9]+)\.([0-9]+)\.([0-9]+)-rc([0-9]+)$/" }
+            when { tag "/^([0-9]+).([0-9]+).([0-9]+)-rc([0-9]+)$/" }
             environment {
                 DT_TARGET_ENV = "staging"
                 DT_TARGET_CLUSTER="staging-app"
