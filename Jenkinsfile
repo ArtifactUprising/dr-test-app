@@ -112,6 +112,29 @@ pipeline {
                 '''
             }
         }
+        stage('deploy release candidate to staging') {
+            when { tag "/^([0-9]+)\.([0-9]+)\.([0-9]+)-rc([0-9]+)$/" }
+            environment {
+                DT_TARGET_ENV = "staging"
+                DT_TARGET_CLUSTER="staging-app"
+                AWS_DEFAULT_REGION="us-west-2"
+                AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
+                AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
+            }
+            steps {
+                sh '''
+                    . /root/.ashrc
+                    read_config
+
+                    SOURCE_TAG=$(git rev-parse --short HEAD)
+                    docker_promote ${TAG_NAME} ${SOURCE_TAG}
+                    
+                    export DT_HELM_IMAGETAG="${TAG_NAME}"
+                    set_eks_auth
+                    helm_deploy
+                '''
+            }
+        }
         stage('publish production release') {
             when { tag "v*" }
             environment {
