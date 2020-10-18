@@ -136,7 +136,7 @@ pipeline {
             }
         }
         stage('publish production release') {
-            when { tag pattern: "v(\\d+).(\\d+).(\\d+)", comparator "REGEXP" }
+            when { tag pattern: "v(\\d+).(\\d+).(\\d+)", comparator: "REGEXP" }
             environment {
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('PROD_AWS_ACCESS_KEY_ID')
@@ -152,7 +152,7 @@ pipeline {
             }
         }
         stage('Deploy Production') {
-            when { tag pattern: "v(\\d+).(\\d+).(\\d+)", comparator "REGEXP" }
+            when { tag pattern: "v(\\d+).(\\d+).(\\d+)", comparator: "REGEXP" }
             environment {
                 DT_TARGET_ENV="prod"
                 DT_TARGET_CLUSTER="prod-app"
