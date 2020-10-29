@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:8b57e13"
+            image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:latest"
             args '-v /var/run/docker.sock:/var/run/docker.sock \
                   -u root:root'
         }
