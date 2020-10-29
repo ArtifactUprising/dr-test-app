@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:latest"
+            image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:5a0281b"
             args '-v /var/run/docker.sock:/var/run/docker.sock \
                   -u root:root'
         }
@@ -10,6 +10,9 @@ pipeline {
         stage('debug') {
             steps {
                 sh '''
+                  . /root/.ashrc
+                  read_config
+
                   env | sort
                 '''
             }

@@ -13,6 +13,9 @@ deploy:
         path: deploy/charts/dr-test-app
         values:
           - deploy/ephemeral/dr-test-app.values.yaml
+        secrets:
+          - deploy/ephemeral/dr-test-app.secrets.sops.yaml
+          - foo.yaml
     staging:
       namespace: dr-test-app
       chart:
