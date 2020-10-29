@@ -10,6 +10,9 @@ pipeline {
         stage('debug') {
             steps {
                 sh '''
+                  . /root/.ashrc
+                  read_config
+
                   env | sort
                 '''
             }
