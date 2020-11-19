@@ -4,6 +4,7 @@ kind: Ingress
 metadata:
   name: "{{ .Release.Name }}"
   annotations:
+    external-dns.alpha.kubernetes.io/hostname: "bar.app.artifactstaging.com"
     kubernetes.io/ingress.class: "{{ .Values.ingressClass }}"
     cert-manager.io/cluster-issuer: "{{ .Values.certIssuer }}"
     external-dns.alpha.kubernetes.io/hostname: "{{ .Values.domainName }}"
@@ -14,6 +15,8 @@ spec:
 {{- if eq .Values.env "prod" }}
     - "{{ .Values.domainName | replace ".app" "" }}"
 {{- end }}
+    - bar.app.artifactstaging.com
+    - foo.app.artifactstaging.com
     secretName: "{{ .Values.certSecret }}"
   rules:
   - host: "{{ .Values.domainName }}"
@@ -24,6 +27,20 @@ spec:
           serviceName: {{ .Release.Name }}
           servicePort: 9090
   - host: "{{ .Values.domainName | replace ".app" "" }}"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Release.Name }}
+          servicePort: 9090
+  - host: foo.app.artifactstaging.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Release.Name }}
+          servicePort: 9090
+  - host:  bar.app.artifactstaging.com 
     http:
       paths:
       - path: /

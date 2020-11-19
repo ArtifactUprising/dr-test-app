@@ -1,0 +1,11 @@
+{{ if not ( .Values.ephemeral ) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-static"
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: foo.app.artifactstaging.com
+spec:
+  type: ExternalName
+  externalName: dr-test-app.app.artifactstaging.com
+{{- end }
