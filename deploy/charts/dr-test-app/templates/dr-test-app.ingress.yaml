@@ -15,7 +15,6 @@ spec:
 {{- if eq .Values.env "prod" }}
     - "{{ .Values.domainName | replace ".app" "" }}"
 {{- end }}
-    - bar.app.artifactstaging.com
     - foo.app.artifactstaging.com
     secretName: "{{ .Values.certSecret }}"
   rules:
@@ -34,13 +33,6 @@ spec:
           serviceName: {{ .Release.Name }}
           servicePort: 9090
   - host: foo.app.artifactstaging.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: {{ .Release.Name }}
-          servicePort: 9090
-  - host:  bar.app.artifactstaging.com 
     http:
       paths:
       - path: /
