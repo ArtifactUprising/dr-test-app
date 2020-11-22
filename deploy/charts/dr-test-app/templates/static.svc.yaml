@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: "{{ .Release.Name }}-static"
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: foo.app.artifactstaging.com
+    external-dns.alpha.kubernetes.io/hostname: "{{ join "," .Values.static }}"
 spec:
   type: ExternalName
-  externalName: bar.app.artifactstaging.com
+  externalName: "{{ .Values.fastly }}"

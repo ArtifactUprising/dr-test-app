@@ -1,10 +1,19 @@
 env: staging
 
 domainName: dr-test-app.app.artifactstaging.com
-newDomainName: dr-test-app.artifactstaging.com
 ingressClass: nginx-ingress
 certIssuer: letsencrypt
 certSecret: dr-test-app
+
+static:
+  - foo.app.artifactstaging.com
+  - bar.app.artifactstaging.com
+
+frontend:
+  - bin.app.artifactstaging.com
+  - baz.app.artifactstaging.com
+
+fastly: app.artifactstaging.com.global.prod.fastly.net
 
 hpa_enabled: false
 replicas: 1
