@@ -9,6 +9,7 @@ deploy:
   helm:
     release: dr-test-app
     ephemeral:
+      newrelicAppId: 873598955
       chart:
         path: deploy/charts/dr-test-app
         values:
