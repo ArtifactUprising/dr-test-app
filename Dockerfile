@@ -1,6 +1,12 @@
 FROM golang:1.14.1 as builder
 
-ADD . ./
-RUN go build ./server.go && chmod +x server
+ADD . /app/
+RUN cd /app && go build 
 
-ENTRYPOINT [ "./server" ]
+FROM golang:1.14.1 
+
+WORKDIR /src
+
+COPY --from=builder  /app/dr-test-app .
+
+ENTRYPOINT [ "./dr-test-app" ]

@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:v1.0"
+            image "966326147313.dkr.ecr.us-west-2.amazonaws.com/deploy-tools:1.0"
             args '-v /var/run/docker.sock:/var/run/docker.sock \
                   -u root:root'
         }
@@ -44,6 +44,7 @@ pipeline {
             environment {
                 DT_TARGET_ENV="ephemeral"
                 DT_TARGET_CLUSTER="staging-app"
+                DT_APP_ID="873598955"
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
@@ -123,6 +124,7 @@ pipeline {
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
+                SLACK_KEY=credentials('SLACK_KEY')
             }
             steps {
                 sh '''
@@ -135,6 +137,7 @@ pipeline {
                     export DT_HELM_IMAGETAG="${TAG_NAME}"
                     set_eks_auth
                     helm_deploy
+                    notify_slack SUCCESS
                 '''
             }
         }
@@ -162,6 +165,8 @@ pipeline {
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('PROD_AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('PROD_AWS_SECRET_ACCESS_KEY')
+                NEWRELIC_API_KEY=credentials('NEWRELIC_API_KEY')
+                SLACK_KEY=credentials('SLACK_KEY')
             }
             steps {
                 sh '''
@@ -170,8 +175,9 @@ pipeline {
                     read_config
                     export DT_HELM_IMAGETAG="${TAG_NAME}"
                     set_eks_auth
-                    kubectl get ns
                     helm_deploy
+                    notify_newrelic
+                    notify_slack SUCCESS
                 '''
             }
         }
