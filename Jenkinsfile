@@ -86,6 +86,7 @@ pipeline {
                 AWS_DEFAULT_REGION="us-west-2"
                 AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
                 AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
+                SLACK_KEY=credentials('SLACK_KEY')
             }
             steps {
                 sh '''
@@ -95,6 +96,7 @@ pipeline {
                     export DT_HELM_IMAGETAG="${DT_TARGET_ENV}"
                     set_eks_auth
                     helm_deploy
+                    notify_slack SUCCESS
                 '''
             }
         }
