@@ -91,15 +91,17 @@ pipeline {
                 SLACK_KEY=credentials('SLACK_KEY')
             }
             steps {
-                sh '''
-                    . /root/.ashrc
+                wrap([$class: 'BuildUser']) {
+                    sh '''
+                        . /root/.ashrc
 
-                    read_config
-                    export DT_HELM_IMAGETAG="${DT_TARGET_ENV}"
-                    set_eks_auth
-                    helm_deploy
-                    notify_slack SUCCESS
-                '''
+                        read_config
+                        export DT_HELM_IMAGETAG="${DT_TARGET_ENV}"
+                        set_eks_auth
+                        helm_deploy
+                        notify_slack SUCCESS
+                    '''
+                }
             }
         }
         stage('Delete PR ENV') {
@@ -131,18 +133,20 @@ pipeline {
                 SLACK_KEY=credentials('SLACK_KEY')
             }
             steps {
-                sh '''
-                    . /root/.ashrc
-                    read_config
+                wrap([$class: 'BuildUser']) {
+                    sh '''
+                        . /root/.ashrc
+                        read_config
 
-                    SOURCE_TAG=$(git rev-parse --short HEAD)
-                    docker_promote ${TAG_NAME} ${SOURCE_TAG}
-                    
-                    export DT_HELM_IMAGETAG="${TAG_NAME}"
-                    set_eks_auth
-                    helm_deploy
-                    notify_slack SUCCESS
-                '''
+                        SOURCE_TAG=$(git rev-parse --short HEAD)
+                        docker_promote ${TAG_NAME} ${SOURCE_TAG}
+                        
+                        export DT_HELM_IMAGETAG="${TAG_NAME}"
+                        set_eks_auth
+                        helm_deploy
+                        notify_slack SUCCESS
+                    '''
+                }
             }
         }
         stage('publish production release') {
