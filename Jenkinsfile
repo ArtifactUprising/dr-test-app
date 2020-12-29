@@ -9,12 +9,14 @@ pipeline {
     stages {
         stage('debug') {
             steps {
+                wrap([$class: 'BuildUser']) {
                 sh '''
                   . /root/.ashrc
-                  read_config
+                  read_config > /dev/null
 
                   env | sort
                 '''
+                }
             }
         }
         stage('build') {
@@ -171,16 +173,18 @@ pipeline {
                 SLACK_KEY=credentials('SLACK_KEY')
             }
             steps {
-                sh '''
-                    . /root/.ashrc
+                wrap([$class: 'BuildUser']) {
+                    sh '''
+                        . /root/.ashrc
 
-                    read_config
-                    export DT_HELM_IMAGETAG="${TAG_NAME}"
-                    set_eks_auth
-                    helm_deploy
-                    notify_newrelic
-                    notify_slack SUCCESS
-                '''
+                        read_config
+                        export DT_HELM_IMAGETAG="${TAG_NAME}"
+                        set_eks_auth
+                        helm_deploy
+                        notify_newrelic
+                        notify_slack SUCCESS
+                    '''
+                }
             }
         }
     }
